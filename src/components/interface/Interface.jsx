@@ -164,6 +164,8 @@ export default function Interface() {
                                 handleError={handleError}
                                 tasks={tasks}
                                 yourTasks={yourTasks}
+                                selectedProject={selectedProject}
+                                isAdmin={isAdmin}
                             />
                             <Analytics
                                 handleError={handleError}

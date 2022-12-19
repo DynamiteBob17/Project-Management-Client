@@ -15,4 +15,9 @@
     tbody tr {
         font-size: 14px;
     }
+
+    td {
+        vertical-align: middle;
+        overflow-x: auto;
+    }
 }
