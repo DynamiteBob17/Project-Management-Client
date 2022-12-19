@@ -87,7 +87,7 @@ export default function Interface() {
     const handleRemoveMember = user_id => {
         callAPI('DELETE', `/api/project/member/${selectedProject.project_id}/${user_id}`, {})
             .then((result) => {
-                getProjectMembers(selectedProject.project_id);
+                window.location.reload();
             })
             .catch(handleError);
     }
