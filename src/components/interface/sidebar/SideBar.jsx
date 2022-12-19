@@ -24,15 +24,21 @@ function SideBar(props) {
 
                 <CDBSidebarContent>
                     <CDBSidebarMenu>
-                        <a href="#members" className="sidebar_link">
-                            <CDBSidebarMenuItem icon="users">Members</CDBSidebarMenuItem>
-                        </a>
-                        <a href="#tasks" className="sidebar_link">
-                            <CDBSidebarMenuItem icon="tasks">Tasks</CDBSidebarMenuItem>
-                        </a>
-                        <a href="#analytics" className="sidebar_link">
-                            <CDBSidebarMenuItem icon="chart-line">Analytics</CDBSidebarMenuItem>
-                        </a>
+                        {
+                            props.selectedProject.project_id !== -1
+                                ? <>
+                                    <a href="#members" className="sidebar_link">
+                                        <CDBSidebarMenuItem icon="users">Members</CDBSidebarMenuItem>
+                                    </a>
+                                    <a href="#tasks" className="sidebar_link">
+                                        <CDBSidebarMenuItem icon="tasks">Tasks</CDBSidebarMenuItem>
+                                    </a>
+                                    <a href="#analytics" className="sidebar_link">
+                                        <CDBSidebarMenuItem icon="chart-line">Analytics</CDBSidebarMenuItem>
+                                    </a>
+                                </>
+                                : <></>
+                        }
                         <CDBSidebarMenuItem>
                             <DeleteModal handleError={props.handleError} />
                         </CDBSidebarMenuItem>
@@ -44,6 +50,7 @@ function SideBar(props) {
                         style={{
                             padding: "20px 5px"
                         }}
+                        id="sidebar_footer"
                     >
                         <Button
                             variant="outline-info"
@@ -57,6 +64,13 @@ function SideBar(props) {
                         >
                             Logout
                         </Button>
+                        <div>
+                            <small>Logged in as
+                                <span style={{ color: '#ffc107' }}>
+                                    &nbsp;{cookies.get("USERNAME")}
+                                </span>
+                            </small>
+                        </div>
                     </div>
                 </CDBSidebarFooter>
             </CDBSidebar>

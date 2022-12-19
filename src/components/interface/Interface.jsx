@@ -156,14 +156,21 @@ export default function Interface() {
                     handleGiveAdmin={handleGiveAdmin}
                     handleRemoveMember={handleRemoveMember}
                 />
-                <Tasks
-                    handleError={handleError}
-                    tasks={tasks}
-                    yourTasks={yourTasks}
-                />
-                <Analytics
-                    handleError={handleError}
-                />
+                {
+                    selectedProject.project_id !== -1
+                        ?
+                        <>
+                            <Tasks
+                                handleError={handleError}
+                                tasks={tasks}
+                                yourTasks={yourTasks}
+                            />
+                            <Analytics
+                                handleError={handleError}
+                            />
+                        </>
+                        : <></>
+                }
             </div>
         </div>
     );
