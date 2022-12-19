@@ -87,8 +87,9 @@ function Members(props) {
                                                 </td>
                                                 <td>
                                                     {
-                                                        (!member.is_admin && props.isAdmin && !member.is_owner)
+                                                        (!member.is_admin && !member.is_owner)
                                                         || (!props.isOwner && member.user_id === parseInt(cookies.get('USER_ID')))
+                                                        || (props.isOwner && member.user_id !== parseInt(cookies.get('USER_ID')))
                                                             ? <Button
                                                                 variant="danger"
                                                                 size="sm"
@@ -100,7 +101,11 @@ function Members(props) {
                                                                         : '-'
                                                                 }
                                                             </Button>
-                                                            : <div style={{ color: 'red' }}>{member.is_admin || member.is_owner || !props.isAdmin ? 'Cannot remove' : ''}</div>
+                                                            : <div style={{ color: 'red' }}>{
+                                                                member.is_owner
+                                                                    ? 'owner'
+                                                                    : 'admin'
+                                                            }</div>
                                                     }
                                                 </td>
                                             </tr>
