@@ -70,7 +70,7 @@ function Members(props) {
                                             <tr key={index}>
                                                 <td style={{
                                                     color: member.is_admin ? '#0dcaf0' : 'white'
-                                                }}>{member.username + (member.user_id == cookies.get('USER_ID') ? ' (you)' : '')}</td>
+                                                }}>{member.username + (member.user_id === parseInt(cookies.get('USER_ID')) ? ' (you)' : '')}</td>
                                                 <td>{member.email}</td>
                                                 <td>
                                                     {
@@ -88,14 +88,14 @@ function Members(props) {
                                                 <td>
                                                     {
                                                         (!member.is_admin && props.isAdmin && !member.is_owner)
-                                                        || (!props.isOwner && member.user_id == cookies.get('USER_ID'))
+                                                        || (!props.isOwner && member.user_id === parseInt(cookies.get('USER_ID')))
                                                             ? <Button
                                                                 variant="danger"
                                                                 size="sm"
                                                                 onClick={() => props.handleRemoveMember(member.user_id)}
                                                             >
                                                                 {
-                                                                    member.user_id == cookies.get('USER_ID')
+                                                                    member.user_id === parseInt(cookies.get('USER_ID'))
                                                                         ? 'Leave project'
                                                                         : '-'
                                                                 }
