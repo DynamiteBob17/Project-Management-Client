@@ -16,6 +16,7 @@ export default function Interface() {
     });
     const [projectMembers, setProjectMembers] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [isOwner, setIsOwner] = useState(false);
     const [tasks, setTasks] = useState([]);
     const [yourTasks, setYourTasks] = useState([]);
     const [error, setError] = useState({
@@ -38,6 +39,7 @@ export default function Interface() {
         callAPI('GET', `/api/project/member/admin/${project_id}/${cookies.get('USER_ID')}`, {})
             .then((result) => {
                 setIsAdmin(result.is_admin);
+                setIsOwner(result.is_owner);
             })
             .catch(handleError);
     }
@@ -150,6 +152,7 @@ export default function Interface() {
                     projects={projects}
                     projectMembers={projectMembers}
                     isAdmin={isAdmin}
+                    isOwner={isOwner}
                     handleGiveAdmin={handleGiveAdmin}
                     handleRemoveMember={handleRemoveMember}
                 />

@@ -38,10 +38,14 @@ function Members(props) {
                         </DropdownButton>
                         : <></>
                 }
-                <DeleteProjectModal
-                    handleError={props.handleError}
-                    selectedProject={props.selectedProject}
-                />
+                {
+                    props.isOwner
+                        ? <DeleteProjectModal
+                            handleError={props.handleError}
+                            selectedProject={props.selectedProject}
+                        />
+                        : <></>
+                }
             </div>
 
             <div id="project_members">
