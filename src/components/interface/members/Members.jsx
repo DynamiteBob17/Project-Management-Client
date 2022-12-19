@@ -7,8 +7,8 @@ import Table from 'react-bootstrap/Table';
 import DeleteProjectModal from "./DeleteProjectModal";
 import AddMemberModal from "./AddMemberModal";
 import Cookies from "universal-cookie";
-const cookies = new Cookies();
 import './Members.scss';
+const cookies = new Cookies();
 
 function Members(props) {
     return (
