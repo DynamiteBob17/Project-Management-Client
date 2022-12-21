@@ -46,17 +46,24 @@ export default function Interface() {
     const getProjectMembers = project_id => {
         callAPI('GET', `/api/project/members/${project_id}`, {})
             .then((result) => {
-                setProjectMembers(result.users);
+                const sorted = result.users.sort((a, b) => a.username - b.username);
+                setProjectMembers(sorted);
             })
             .catch(handleError);
     }
     const getTasks = project_id => {
         callAPI('GET', `/api/tasks/${project_id}`, {})
             .then((result) => {
-                setTasks(result.tasks);
+                let sorted = result.tasks.sort((a, b) => {
+                    return new Date(a.task_due_date) - new Date(b.task_due_date);
+                });
+                setTasks(sorted);
 
                 callAPI('GET', `/api/user/tasks/${project_id}`, {})
                     .then((result) => {
+                        sorted = result.tasks.sort((a, b) => {
+                            return new Date(a.task_due_date) - new Date(b.task_due_date);
+                        });
                         setYourTasks(result.tasks);
                     })
                     .catch(handleError);
