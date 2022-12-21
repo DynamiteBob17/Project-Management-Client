@@ -87,9 +87,9 @@ function Members(props) {
                                                 </td>
                                                 <td>
                                                     {
-                                                        (!member.is_admin && !member.is_owner)
-                                                        || (!props.isOwner && member.user_id === parseInt(cookies.get('USER_ID')))
-                                                        || (props.isOwner && member.user_id !== parseInt(cookies.get('USER_ID')))
+                                                        ((member.user_id === parseInt(cookies.get('USER_ID')) && !member.is_owner)
+                                                            || (props.isAdmin && !member.is_admin)
+                                                            || (props.isOwner && !member.is_owner))
                                                             ? <Button
                                                                 variant="danger"
                                                                 size="sm"
@@ -104,7 +104,9 @@ function Members(props) {
                                                             : <div style={{ color: 'red' }}>{
                                                                 member.is_owner
                                                                     ? 'owner'
-                                                                    : 'admin'
+                                                                    : member.is_admin
+                                                                        ? 'admin'
+                                                                        : 'member'
                                                             }</div>
                                                     }
                                                 </td>
@@ -113,21 +115,21 @@ function Members(props) {
                                     })
                                 }
                             </tbody>
-                            {
-                                props.isAdmin
-                                    ? <AddMemberModal
-                                        handleError={props.handleError}
-                                        selectedProject={props.selectedProject}
-                                        handleProjectChange={props.handleProjectChange}
-                                        usernames={
-                                            props.projectMembers.map(member => {
-                                                return member.username;
-                                            })
-                                        }
-                                    />
-                                    : <></>
-                            }
                         </Table>
+                        {
+                            props.isAdmin
+                                ? <AddMemberModal
+                                    handleError={props.handleError}
+                                    selectedProject={props.selectedProject}
+                                    handleProjectChange={props.handleProjectChange}
+                                    usernames={
+                                        props.projectMembers.map(member => {
+                                            return member.username;
+                                        })
+                                    }
+                                />
+                                : <></>
+                        }
                     </div>
                     : <></>
             }

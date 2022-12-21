@@ -16,8 +16,12 @@
         font-size: 14px;
     }
 
-    td {
+    td, th {
         vertical-align: middle;
         overflow-x: auto;
+    }
+
+    table {
+        margin-bottom: 0;
     }
 }

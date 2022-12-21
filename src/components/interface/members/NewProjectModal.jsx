@@ -13,10 +13,15 @@ function NewProjectModal(props) {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const handleSubmit = () => {
+    const handleSubmit = e => {
+        e.preventDefault();
+
+        if (project_name === '') {
+            return;
+        }
+
         callAPI('POST', '/api/project', {
-            project_name: project_name,
-            user_id: cookies.get('USER_ID')
+            project_name: project_name
         })
             .then((result) => {
                 props.handleProjectChange(result.project);
@@ -36,29 +41,32 @@ function NewProjectModal(props) {
                     <Modal.Title>Create a new project</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FloatingLabel
-                        controlId="floatingText"
-                        label="Enter project name"
-                    >
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter project name"
-                            value={project_name}
-                            onChange={e => { setProject_name(e.target.value) }}
-                        />
-                    </FloatingLabel>
+                    <Form onSubmit={handleSubmit}>
+                        <FloatingLabel
+                            controlId="floatingText"
+                            label="Enter project name"
+                        >
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter project name"
+                                value={project_name}
+                                onChange={e => { setProject_name(e.target.value) }}
+                            />
+                        </FloatingLabel>
+
+                        <Button
+                            disabled={project_name === ''}
+                            variant="warning"
+                            onClick={handleSubmit}
+                            style={{
+                                marginTop: '10px',
+                                float: 'right'
+                            }}
+                        >
+                            Create
+                        </Button>
+                    </Form>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button
-                        variant="warning"
-                        onClick={handleSubmit}
-                    >
-                        Create
-                    </Button>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
             </Modal>
         </>
     );

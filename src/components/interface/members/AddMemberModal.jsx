@@ -11,7 +11,13 @@ function AddMemberModal(props) {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const handleSubmit = () => {
+    const handleSubmit = e => {
+        e.preventDefault();
+
+        if (username === '') {
+            return;
+        }
+
         if (props.usernames.includes(username)) {
             props.handleError({
                 message: 'Username already exists in project',
@@ -30,6 +36,7 @@ function AddMemberModal(props) {
         })
             .then((result) => {
                 props.handleProjectChange(props.selectedProject);
+                setUsername('');
                 handleClose();
             })
             .catch(props.handleError);
@@ -37,39 +44,50 @@ function AddMemberModal(props) {
 
     return (
         <>
-            <Button variant="warning" onClick={handleShow} size="sm">
+            <Button
+                variant="warning"
+                onClick={handleShow}
+                size="sm"
+                style={{ marginBottom: '25px' }}
+            >
                 Add member
             </Button>
 
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add a new member to selected project</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <FloatingLabel
-                        controlId="floatingText"
-                        label="Enter username"
-                    >
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter username"
-                            value={username}
-                            onChange={e => { setUsername(e.target.value) }}
-                        />
-                    </FloatingLabel>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button
-                        variant="warning"
-                        onClick={handleSubmit}
-                    >
-                        Add
-                    </Button>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            <Form>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Add a new member to selected project</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form onSubmit={handleSubmit}>
+                            <FloatingLabel
+                                controlId="floatingText"
+                                label="Enter username"
+                            >
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Enter username"
+                                    value={username}
+                                    onChange={e => { setUsername(e.target.value) }}
+                                />
+                            </FloatingLabel>
+
+                            <Button
+                                disabled={username === ''}
+                                variant="warning"
+                                onClick={handleSubmit}
+                                type="submit"
+                                style={{
+                                    marginTop: '10px',
+                                    float: 'right'
+                                }}
+                            >
+                                Add
+                            </Button>
+                        </Form>
+                    </Modal.Body>
+                </Modal>
+            </Form>
         </>
     );
 }
