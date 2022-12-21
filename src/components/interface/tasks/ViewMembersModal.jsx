@@ -27,7 +27,7 @@ function ViewMembersModal(props) {
                 setNonMembers(subtractArrays(props.projectMembers, members));
             })
             .catch(props.handleError);
-    }, [props.projectMembers]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [props.projectMembers, props.task_id]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
