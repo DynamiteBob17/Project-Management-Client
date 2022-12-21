@@ -55,11 +55,43 @@ export default function Interface() {
             .then((result) => {
                 setTasks(result.tasks);
 
-                callAPI('GET', `/api/user/tasks/${cookies.get('USER_ID')}/${project_id}`, {})
+                callAPI('GET', `/api/user/tasks/${project_id}`, {})
                     .then((result) => {
                         setYourTasks(result.tasks);
                     })
                     .catch(handleError);
+            })
+            .catch(handleError);
+    }
+    const handleAddTask = (task, assignedMembers) => {
+        callAPI('POST', '/api/task', task)
+            .then((result) => {
+                setTasks([...tasks, result.task]);
+                setYourTasks([...yourTasks, result.task]);
+                const task_id = result.task.task_id;
+
+                if (assignedMembers.length > 0) {
+                    callAPI('PUT', '/api/task/members', {
+                        task_id: task_id,
+                        user_ids: assignedMembers
+                    })
+                        .then((result) => {
+                            // Do nothing for now
+                        })
+                        .catch(handleError);
+                }
+            })
+            .catch(handleError);
+    }
+    const handleYourTaskChange = task => {
+        setYourTasks([...yourTasks, task]);
+    }
+    const handleCompleteTask = task_id => {
+        callAPI('PUT', '/api/task/complete', {
+            task_id: task_id
+        })
+            .then((result) => {
+                getTasks(selectedProject.project_id);
             })
             .catch(handleError);
     }
@@ -87,13 +119,17 @@ export default function Interface() {
     const handleRemoveMember = user_id => {
         callAPI('DELETE', `/api/project/member/${selectedProject.project_id}/${user_id}`, {})
             .then((result) => {
-                window.location.reload();
+                setProjectMembers(projectMembers.filter(member => member.user_id !== user_id));
+
+                if (user_id === parseInt(cookies.get('USER_ID'))) {
+                    window.location.reload();
+                }
             })
             .catch(handleError);
     }
 
     useEffect(() => {
-        callAPI('GET', '/api/projects/' + cookies.get('USER_ID'), {})
+        callAPI('GET', '/api/projects', {})
             .then((result) => {
                 setProjects(result.projects);
 
@@ -166,9 +202,15 @@ export default function Interface() {
                                 yourTasks={yourTasks}
                                 selectedProject={selectedProject}
                                 isAdmin={isAdmin}
+                                projectMembers={projectMembers}
+                                handleAddTask={handleAddTask}
+                                user_id={parseInt(cookies.get('USER_ID'))}
+                                handleYourTaskChange={handleYourTaskChange}
+                                handleCompleteTask={handleCompleteTask}
                             />
                             <Analytics
                                 handleError={handleError}
+                                tasks={tasks}
                             />
                         </>
                         : <></>
