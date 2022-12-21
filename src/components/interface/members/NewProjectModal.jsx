@@ -4,8 +4,6 @@ import Modal from 'react-bootstrap/Modal';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import callAPI from '../callAPI';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 
 function NewProjectModal(props) {
     const [show, setShow] = useState(false);

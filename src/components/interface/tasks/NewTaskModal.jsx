@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import callAPI from "../callAPI";
 
 function NewTaskModal(props) {
     const formattedDate = new Date().toISOString().split('T')[0];
