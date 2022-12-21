@@ -107,7 +107,10 @@ function CommentsModal(props) {
                                     </div>
                                     {
                                         comment.user_id === parseInt(cookies.get('USER_ID'))
-                                            || props.isAdmin
+                                            || (props.isAdmin
+                                                && !props.projectMembers.find(pm => {
+                                                    return pm.user_id === comment.user_id;
+                                                }).is_owner)
                                             ? <Button
                                                 variant="danger"
                                                 size="sm"

@@ -69,6 +69,7 @@ function Task(props) {
                     handleError={props.handleError}
                     task_id={props.task.task_id}
                     isAdmin={props.isAdmin}
+                    projectMembers={props.projectMembers}
                 />
             </td>
         </tr>
