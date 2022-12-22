@@ -5,9 +5,26 @@ import ViewMembersModal from "./ViewMembersModal";
 import CommentsModal from "./CommentsModal";
 
 function Task(props) {
+    const isTaskOverdue = task => {
+        const todayFormatted = new Date().toISOString().split('T')[0];
+        const taskDueDateFormatted = task.task_due_date.split('T')[0];
+
+        return new Date(taskDueDateFormatted) <= new Date(todayFormatted);
+    }
+
     return (
         <tr>
-            <td>{props.task.task_name}</td>
+            <td
+            >
+                <span
+                    style={props.yourTasks.map(yourTask => yourTask.task_id).includes(props.task.task_id)
+                        ? { color: 'lime', fontWeight: 'bold' }
+                        : {}
+                    }
+                >
+                    {props.task.task_name}
+                </span>
+            </td>
             <td>
                 <ShowDescModal desc={props.task.task_description} />
             </td>
@@ -33,7 +50,7 @@ function Task(props) {
                     handleYourTaskChange={props.handleYourTaskChange}
                     user_id={props.user_id}
                     task={props.task}
-                    isTaskOverdue={props.isTaskOverdue}
+                    isTaskOverdue={isTaskOverdue}
                 />
             </td>
             <td>
@@ -43,7 +60,7 @@ function Task(props) {
                             className="fas fa-check-circle"
                             style={{ color: 'lime', fontSize: '20px' }}
                         />
-                        : props.isTaskOverdue(props.task)
+                        : isTaskOverdue(props.task)
                             ? <i
                                 className="fas fa-times-circle"
                                 style={{ color: 'red', fontSize: '20px' }}

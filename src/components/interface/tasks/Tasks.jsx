@@ -1,18 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormCheck, Table } from "react-bootstrap";
 import Task from "./Task";
 import NewTaskModal from "./NewTaskModal";
 import './Tasks.scss';
 
 function Tasks(props) {
-    const [showOnlyYourTasks, setShowOnlyYourTasks] = useState(false);
-
-    const isTaskOverdue = task => {
-        const todayFormatted = new Date().toISOString().split('T')[0];
-        const taskDueDateFormatted = task.task_due_date.split('T')[0];
-
-        return new Date(taskDueDateFormatted) <= new Date(todayFormatted);
-    } 
 
     return (
         <div id="tasks">
@@ -30,14 +22,9 @@ function Tasks(props) {
             {
                 props.tasks.length > 0
                     ? <>
-                        <FormCheck
-                            style={{ color: 'white', fontStyle: 'italic', fontSize: '14px' }}
-                            type="checkbox"
-                            id="showOnlyYourTasks"
-                            label="Show only your tasks"
-                            checked={showOnlyYourTasks}
-                            onChange={() => setShowOnlyYourTasks(!showOnlyYourTasks)}
-                        />
+                        <div style={{ color: 'gray', fontStyle: 'italic' }}>
+                            * your tasks are green and bold
+                        </div>
                         <Table striped bordered hover variant="dark" style={{ textAlign: 'center' }}>
                             <thead>
                                 <tr>
@@ -52,33 +39,21 @@ function Tasks(props) {
                             </thead>
                             <tbody>
                                 {
-                                    showOnlyYourTasks
-                                        ? props.yourTasks.map((task, index) => {
-                                            return <Task
+                                    props.tasks.map((task, index) => {
+                                        return (
+                                            <Task
                                                 key={index}
                                                 task={task}
-                                                handleError={props.handleError}
+                                                yourTasks={props.yourTasks}
                                                 projectMembers={props.projectMembers}
                                                 isAdmin={props.isAdmin}
-                                                handleYourTaskChange={props.handleYourTaskChange}
-                                                user_id={props.user_id}
-                                                isTaskOverdue={isTaskOverdue}
                                                 handleCompleteTask={props.handleCompleteTask}
-                                            />
-                                        })
-                                        : props.tasks.map((task, index) => {
-                                            return <Task
-                                                key={index}
-                                                task={task}
                                                 handleError={props.handleError}
-                                                projectMembers={props.projectMembers}
-                                                isAdmin={props.isAdmin}
                                                 handleYourTaskChange={props.handleYourTaskChange}
                                                 user_id={props.user_id}
-                                                isTaskOverdue={isTaskOverdue}
-                                                handleCompleteTask={props.handleCompleteTask}
                                             />
-                                        })
+                                        );
+                                    })
                                 }
                             </tbody>
                         </Table>

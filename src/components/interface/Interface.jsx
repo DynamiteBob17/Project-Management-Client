@@ -64,7 +64,7 @@ export default function Interface() {
                         sorted = result.tasks.sort((a, b) => {
                             return new Date(a.task_due_date) - new Date(b.task_due_date);
                         });
-                        setYourTasks(result.tasks);
+                        setYourTasks(sorted);
                     })
                     .catch(handleError);
             })
