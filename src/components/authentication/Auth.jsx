@@ -19,7 +19,6 @@ function Auth() {
             .then(result => {
                 cookies.set('TOKEN', result.data.token, { path: '/' });
                 cookies.set('USER_ID', result.data.user_id, { path: '/' });
-                cookies.set('USERNAME', result.data.username, { path: '/' });
                 window.location.href = '/interface';
             })
             .catch(err => {

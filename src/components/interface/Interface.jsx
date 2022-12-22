@@ -6,9 +6,11 @@ import SideBar from "./sidebar/SideBar";
 import Members from "./members/Members";
 import Tasks from "./tasks/Tasks";
 import Analytics from "./analytics/Analytics";
+import { useJwt } from "react-jwt";
 const cookies = new Cookies();
 
 export default function Interface() {
+    const { decodedToken, isExpired } = useJwt(cookies.get('TOKEN'));
     const [projects, setProjects] = useState([]);
     const [selectedProject, setSelectedProject] = useState({
         project_id: -1,
@@ -136,6 +138,14 @@ export default function Interface() {
     }
 
     useEffect(() => {
+        if (decodedToken !== null) {
+            if (isExpired || decodedToken.user_id !== parseInt(cookies.get('USER_ID'))) {
+                cookies.remove('TOKEN');
+                cookies.remove('USER_ID');
+                window.location.reload();
+            }
+        }
+
         callAPI('GET', '/api/projects', {})
             .then((result) => {
                 setProjects(result.projects);
@@ -154,7 +164,7 @@ export default function Interface() {
                 }
             })
             .catch(handleError);
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [decodedToken]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div style={{ display: 'flex' }}>
