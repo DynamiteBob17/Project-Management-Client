@@ -68,7 +68,7 @@ function Task(props) {
                             />
                             : props.isAdmin
                                 ? <Button
-                                    variant="outline-success"
+                                    variant="outline-warning"
                                     size="sm"
                                     onClick={() => {
                                         props.handleCompleteTask(props.task.task_id);
