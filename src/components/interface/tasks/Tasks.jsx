@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { FormCheck, Table } from "react-bootstrap";
+import React from "react";
+import { Table } from "react-bootstrap";
 import Task from "./Task";
 import NewTaskModal from "./NewTaskModal";
 import './Tasks.scss';
 
 function Tasks(props) {
-
     return (
         <div id="tasks">
             {

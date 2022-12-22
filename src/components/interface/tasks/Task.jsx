@@ -17,7 +17,8 @@ function Task(props) {
             <td
             >
                 <span
-                    style={props.yourTasks.map(yourTask => yourTask.task_id).includes(props.task.task_id)
+                    style={props.yourTasks.map(yourTask => yourTask.task_id)
+                            .includes(props.task.task_id)
                         ? { color: 'lime', fontWeight: 'bold' }
                         : {}
                     }
