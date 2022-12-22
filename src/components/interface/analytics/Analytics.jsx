@@ -9,7 +9,7 @@ function Analytics(props) {
         const todayFormatted = new Date().toISOString().split('T')[0];
         const taskDueDate = task.task_due_date.split('T')[0];
 
-        return taskDueDate <= todayFormatted;
+        return new Date(taskDueDate) <= new Date(todayFormatted);
     }
 
     useEffect(() => {
