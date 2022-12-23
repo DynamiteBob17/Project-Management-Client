@@ -142,6 +142,7 @@ export default function Interface() {
             if (isExpired || decodedToken.user_id !== parseInt(cookies.get('USER_ID'))) {
                 cookies.remove('TOKEN');
                 cookies.remove('USER_ID');
+                cookies.remove('USERNAME');
                 window.location.reload();
             }
         }
