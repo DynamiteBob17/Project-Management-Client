@@ -27,6 +27,7 @@ function CompleteTaskModal(props) {
                         size="md"
                         onClick={() => {
                             props.handleCompleteTask(props.task.task_id);
+                            handleClose();
                         }}
                     >
                         Yes

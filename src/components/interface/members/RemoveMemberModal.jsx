@@ -38,7 +38,8 @@ function RemoveMemberModal(props) {
                         variant="primary"
                         size="md"
                         onClick={() => {
-                            props.handleRemoveMember(props.member.user_id)
+                            props.handleRemoveMember(props.member.user_id);
+                            handleClose();
                         }}
                     >
                         Yes

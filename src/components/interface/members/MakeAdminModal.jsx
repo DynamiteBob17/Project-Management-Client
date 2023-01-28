@@ -26,7 +26,8 @@ function CompleteTaskModal(props) {
                         variant="primary"
                         size="md"
                         onClick={() => {
-                            props.handleGiveAdmin(props.member.user_id)
+                            props.handleGiveAdmin(props.member.user_id);
+                            handleClose();
                         }}
                     >
                         Yes
