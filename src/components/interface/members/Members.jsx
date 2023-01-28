@@ -6,6 +6,8 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Table from 'react-bootstrap/Table';
 import DeleteProjectModal from "./DeleteProjectModal";
 import AddMemberModal from "./AddMemberModal";
+import MakeAdminModal from "./MakeAdminModal";
+import RemoveMemberModal from "./RemoveMemberModal";
 import Cookies from "universal-cookie";
 import './Members.scss';
 const cookies = new Cookies();
@@ -75,13 +77,10 @@ function Members(props) {
                                                 <td>
                                                     {
                                                         !member.is_admin && props.isAdmin
-                                                            ? <Button
-                                                                variant="info"
-                                                                size="sm"
-                                                                onClick={() => props.handleGiveAdmin(member.user_id)}
-                                                            >
-                                                                +
-                                                            </Button>
+                                                            ? <MakeAdminModal
+                                                                member={member}
+                                                                handleGiveAdmin={props.handleGiveAdmin}
+                                                            />
                                                             : <div style={{ color: 'red' }}>{!props.isAdmin ? 'You are not admin' : ''}</div>
                                                     }
                                                 </td>
@@ -90,17 +89,10 @@ function Members(props) {
                                                         ((member.user_id === parseInt(cookies.get('USER_ID')) && !member.is_owner)
                                                             || (props.isAdmin && !member.is_admin)
                                                             || (props.isOwner && !member.is_owner))
-                                                            ? <Button
-                                                                variant="danger"
-                                                                size="sm"
-                                                                onClick={() => props.handleRemoveMember(member.user_id)}
-                                                            >
-                                                                {
-                                                                    member.user_id === parseInt(cookies.get('USER_ID'))
-                                                                        ? 'Leave project'
-                                                                        : '-'
-                                                                }
-                                                            </Button>
+                                                            ? <RemoveMemberModal
+                                                                member={member}
+                                                                handleRemoveMember={props.handleRemoveMember}
+                                                            />
                                                             : <div style={{ color: 'red' }}>{
                                                                 member.is_owner
                                                                     ? 'owner'

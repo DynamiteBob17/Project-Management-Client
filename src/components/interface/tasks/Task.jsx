@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import ShowDescModal from "./ShowDescModal";
 import ViewMembersModal from "./ViewMembersModal";
 import CommentsModal from "./CommentsModal";
+import CompleteTaskModal from "./CompleteTaskModal";
 
 function Task(props) {
     const isTaskOverdue = task => {
@@ -18,7 +19,7 @@ function Task(props) {
             >
                 <span
                     style={props.yourTasks.map(yourTask => yourTask.task_id)
-                            .includes(props.task.task_id)
+                        .includes(props.task.task_id)
                         ? { color: 'lime', fontWeight: 'bold' }
                         : {}
                     }
@@ -67,15 +68,10 @@ function Task(props) {
                                 style={{ color: 'red', fontSize: '20px' }}
                             />
                             : props.isAdmin
-                                ? <Button
-                                    variant="outline-warning"
-                                    size="sm"
-                                    onClick={() => {
-                                        props.handleCompleteTask(props.task.task_id);
-                                    }}
-                                >
-                                    Complete
-                                </Button>
+                                ? <CompleteTaskModal
+                                    task={props.task}
+                                    handleCompleteTask={props.handleCompleteTask}
+                                />
                                 : <i
                                     className="fas fa-minus-circle"
                                     style={{ color: 'orange', fontSize: '20px' }}
