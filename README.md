@@ -1,4 +1,4 @@
-## project management React client that uses this [api](https://github.com/PickleEaterJim33/Project-Management-API) for managing data and authentication
+## project management React client that uses this [server](https://github.com/PickleEaterJim33/Project-Management-Server) for managing data and authentication
 will maybe make it responsive on mobile in the future...
 - some test users:  
 1. username: **user1**(***owner*** of testProject1)</br>password: *pmpickle33*</br>email: user1@pickle33.org
