@@ -54,7 +54,7 @@ function Members(props) {
             {
                 props.projects.length > 0
                     ? <div id="project_members">
-                        <Table striped bordered hover variant="dark"
+                        <Table responsive striped bordered hover variant="dark"
                         >
                             <thead>
                                 <tr>

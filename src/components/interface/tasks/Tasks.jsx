@@ -2,7 +2,6 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import Task from "./Task";
 import NewTaskModal from "./NewTaskModal";
-import './Tasks.scss';
 
 function Tasks(props) {
     return (
@@ -24,7 +23,7 @@ function Tasks(props) {
                         <div style={{ color: 'gray', fontStyle: 'italic' }}>
                             * your tasks are green and bold
                         </div>
-                        <Table striped bordered hover variant="dark" style={{ textAlign: 'center' }}>
+                        <Table responsive striped bordered hover variant="dark" style={{ textAlign: 'center' }}>
                             <thead>
                                 <tr>
                                     <th>Name</th>
