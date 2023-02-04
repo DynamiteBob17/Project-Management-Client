@@ -55,6 +55,10 @@ function CommentsModal(props) {
             .catch(props.handleError);
     }
     const handleRemoveComment = comment_id => {
+        if (!window.confirm('Are you sure you want to delete this comment?')) {
+            return;
+        }
+
         callAPI('DELETE', `/api/task/comment/${comment_id}/${cookies.get('USER_ID')}`, {})
             .then((result) => {
                 getComments();
