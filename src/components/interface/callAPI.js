@@ -6,7 +6,7 @@ async function callAPI(method, route, data) {
     try {
         const config = {
             method: method,
-            url: 'https://pm-restapi.onrender.com' + route,
+            url: process.env.REACT_APP_SERVER_ORIGIN + route,
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': `${cookies.get('USER_ID')} ${cookies.get('TOKEN')}`
