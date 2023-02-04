@@ -50,7 +50,7 @@ function Auth() {
         if (!loginForm) {
             const config = {
                 method: 'POST',
-                url: 'https://pm-restapi.onrender.com/api/register',
+                url: `${process.env.REACT_APP_SERVER_ORIGIN}/api/register`,
                 data: {
                     email,
                     username,
@@ -61,7 +61,7 @@ function Auth() {
             axios(config)
                 .then(result => {
                     // login after registering
-                    config.url = 'https://pm-restapi.onrender.com/api/login';
+                    config.url = `${process.env.REACT_APP_SERVER_ORIGIN}/api/login`;
                     config.data = {
                         emailOrUsername: email,
                         password: password
@@ -82,7 +82,7 @@ function Auth() {
         } else {
             const config = {
                 method: 'POST',
-                url: 'https://pm-restapi.onrender.com/api/login',
+                url: `${process.env.REACT_APP_SERVER_ORIGIN}/api/login`,
                 data: {
                     emailOrUsername,
                     password
