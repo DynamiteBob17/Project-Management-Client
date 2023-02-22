@@ -9,7 +9,7 @@ import Analytics from "./analytics/Analytics";
 import { useJwt } from "react-jwt";
 const cookies = new Cookies();
 
-// this is a mess; remake later
+// THIS IS A MESS; SHOULD REMAKE AND RESTRUCTURE ENTIRE APP TBH
 
 export default function Interface() {
     const { decodedToken, isExpired } = useJwt(cookies.get('TOKEN'));

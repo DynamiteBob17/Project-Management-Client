@@ -14,6 +14,24 @@ function Auth() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    useEffect(() => {
+        console.log('waking up server...');
+        // so it's hopefully awake by the time the user clicks login/register
+
+        const config = {
+            method: 'GET',
+            url: `${process.env.REACT_APP_SERVER_ORIGIN}/`
+        }
+
+        axios(config)
+            .then(result => {
+                console.log('...server is live');
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, []);
+
     const loginRequest = config => {
         axios(config)
             .then(result => {
