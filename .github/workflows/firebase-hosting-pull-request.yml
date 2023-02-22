@@ -4,7 +4,7 @@
 name: Deploy to Firebase Hosting on PR
 'on': pull_request
 env:
-  REACT_APP_SERVER_ORIGIN: 'https://pm-restapi.onrender.com'
+  REACT_APP_SERVER_ORIGIN: https://pm-server-jsgk.onrender.com
 jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
@@ -15,5 +15,5 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PM_PICKLE }}'
-          projectId: pm-pickle
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PM_APP_MLINKA }}'
+          projectId: pm-app-mlinka
