@@ -54,7 +54,6 @@ function ViewMembersModal(props) {
                                         {member.username}
                                         {
                                             props.isAdmin
-                                                && !member.is_admin
                                                 && props.task.task_completed_date === null
                                                 && !props.isTaskOverdue(props.task)
                                                 ? <Button
