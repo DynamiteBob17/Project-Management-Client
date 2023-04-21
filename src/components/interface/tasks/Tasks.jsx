@@ -49,6 +49,7 @@ function Tasks(props) {
                                                 handleError={props.handleError}
                                                 handleYourTaskChange={props.handleYourTaskChange}
                                                 user_id={props.user_id}
+                                                setLoading={props.setLoading}
                                             />
                                         );
                                     })

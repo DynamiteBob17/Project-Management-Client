@@ -25,7 +25,7 @@ function DeleteModal(props) {
                 <Modal.Body>Are you sure?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="danger" onClick={() => {
-                        callAPI('DELETE', '/api/project/' + props.selectedProject.project_id, {})
+                        callAPI('DELETE', '/api/project/' + props.selectedProject.project_id, {}, props.setLoading)
                             .then(res => {
                                 window.location.reload();
                             })

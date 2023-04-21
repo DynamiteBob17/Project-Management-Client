@@ -40,7 +40,7 @@ function SideBar(props) {
                                 : <></>
                         }
                         <CDBSidebarMenuItem>
-                            <DeleteModal handleError={props.handleError} />
+                            <DeleteModal handleError={props.handleError} setLoading={props.setLoading} />
                         </CDBSidebarMenuItem>
                     </CDBSidebarMenu>
                 </CDBSidebarContent>

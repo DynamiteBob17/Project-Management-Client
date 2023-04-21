@@ -52,6 +52,7 @@ function Task(props) {
                     user_id={props.user_id}
                     task={props.task}
                     isTaskOverdue={isTaskOverdue}
+                    setLoading={props.setLoading}
                 />
             </td>
             <td>
@@ -83,6 +84,7 @@ function Task(props) {
                     task_id={props.task.task_id}
                     isAdmin={props.isAdmin}
                     projectMembers={props.projectMembers}
+                    setLoading={props.setLoading}
                 />
             </td>
         </tr>

@@ -27,7 +27,7 @@ function DeleteModal(props) {
                 <Modal.Body>Are you sure?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="danger" onClick={() => {
-                        callAPI('DELETE', '/api/user', {})
+                        callAPI('DELETE', '/api/user', {}, props.setLoading)
                             .then(res => {
                                 Object.keys(cookies.getAll()).forEach(cookie => {
                                     cookies.remove(cookie);

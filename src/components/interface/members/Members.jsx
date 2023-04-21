@@ -18,6 +18,7 @@ function Members(props) {
                 <NewProjectModal
                     handleProjectChange={props.handleProjectChange}
                     handleError={props.handleError}
+                    setLoading={props.setLoading}
                 />
                 {
                     props.projects.length > 0
@@ -46,6 +47,7 @@ function Members(props) {
                         ? <DeleteProjectModal
                             handleError={props.handleError}
                             selectedProject={props.selectedProject}
+                            setLoading={props.setLoading}
                         />
                         : <></>
                 }
@@ -79,6 +81,7 @@ function Members(props) {
                                                             ? <MakeAdminModal
                                                                 member={member}
                                                                 handleGiveAdmin={props.handleGiveAdmin}
+                                                                setLoading={props.setLoading}
                                                             />
                                                             : <div style={{ color: 'red' }}>{!props.isAdmin ? 'You are not admin' : ''}</div>
                                                     }
@@ -91,6 +94,7 @@ function Members(props) {
                                                             ? <RemoveMemberModal
                                                                 member={member}
                                                                 handleRemoveMember={props.handleRemoveMember}
+                                                                setLoading={props.setLoading}
                                                             />
                                                             : <div style={{ color: 'red' }}>{
                                                                 member.is_owner
@@ -118,6 +122,7 @@ function Members(props) {
                                             return member.username;
                                         })
                                     }
+                                    setLoading={props.setLoading}
                                 />
                                 : <></>
                         }

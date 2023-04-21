@@ -2,8 +2,10 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-async function callAPI(method, route, data) {
+async function callAPI(method, route, data, setLoading) {
     try {
+        setLoading(true);
+
         const config = {
             method: method,
             url: process.env.REACT_APP_SERVER_ORIGIN + route,
@@ -23,6 +25,8 @@ async function callAPI(method, route, data) {
         return new Promise((resolve, reject) => {
             reject(error);
         });
+    } finally {
+        setLoading(false);
     }
 }
 

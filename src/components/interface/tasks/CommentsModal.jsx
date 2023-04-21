@@ -10,7 +10,7 @@ function CommentsModal(props) {
     const [comment, setComment] = useState('');
 
     const getComments = () => {
-        callAPI('GET', `/api/task/comments/${props.task_id}`, {})
+        callAPI('GET', `/api/task/comments/${props.task_id}`, {}, props.setLoading)
             .then((result) => {
                 result.task_comments.sort((a, b) => {
                     return new Date(b.comment_date) - new Date(a.comment_date);
@@ -47,7 +47,7 @@ function CommentsModal(props) {
         callAPI('POST', '/api/task/comment', {
             task_id: props.task_id,
             comment_text: comment
-        })
+        }, props.setLoading)
             .then((result) => {
                 getComments();
                 setComment('');
@@ -59,7 +59,7 @@ function CommentsModal(props) {
             return;
         }
 
-        callAPI('DELETE', `/api/task/comment/${comment_id}/${cookies.get('USER_ID')}`, {})
+        callAPI('DELETE', `/api/task/comment/${comment_id}/${cookies.get('USER_ID')}`, {}, props.setLoading)
             .then((result) => {
                 getComments();
             })

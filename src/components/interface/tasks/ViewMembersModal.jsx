@@ -16,7 +16,7 @@ function ViewMembersModal(props) {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        callAPI('GET', `/api/task/members/${props.task_id}`, {})
+        callAPI('GET', `/api/task/members/${props.task_id}`, {}, props.setLoading)
             .then((result) => {
                 const taskMemberIds = result.members.map(member => member.user_id);
                 const members = props.projectMembers.filter(member => {
@@ -66,7 +66,7 @@ function ViewMembersModal(props) {
                                                         fontWeight: 'bold'
                                                     }}
                                                     onClick={() => {
-                                                        callAPI('DELETE', `/api/task/member/${props.task_id}/${member.user_id}`, {})
+                                                        callAPI('DELETE', `/api/task/member/${props.task_id}/${member.user_id}`, {}, props.setLoading)
                                                             .then(result => {
                                                                 const newNonMember = props.projectMembers.find(projectMember => {
                                                                     return projectMember.user_id === result.task_member.user_id;
@@ -114,7 +114,7 @@ function ViewMembersModal(props) {
                                                         callAPI('PUT', `/api/task/member`, {
                                                             task_id: props.task_id,
                                                             user_id: member.user_id
-                                                        })
+                                                        }, props.setLoading)
                                                             .then(result => {
                                                                 const newMember = props.projectMembers.find(projectMember => {
                                                                     return projectMember.user_id === result.task_member.user_id;

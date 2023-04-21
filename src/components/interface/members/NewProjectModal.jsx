@@ -20,7 +20,7 @@ function NewProjectModal(props) {
 
         callAPI('POST', '/api/project', {
             project_name: project_name
-        })
+        }, props.setLoading)
             .then((result) => {
                 props.handleProjectChange(result.project);
                 handleClose();

@@ -33,7 +33,7 @@ function AddMemberModal(props) {
         callAPI('PUT', '/api/project/member', {
             project_id: props.selectedProject.project_id,
             username: username
-        })
+        }, props.setLoading)
             .then((result) => {
                 props.handleProjectChange(props.selectedProject);
                 setUsername('');

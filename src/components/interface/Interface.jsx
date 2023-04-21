@@ -6,13 +6,13 @@ import SideBar from "./sidebar/SideBar";
 import Members from "./members/Members";
 import Tasks from "./tasks/Tasks";
 import Analytics from "./analytics/Analytics";
-import { useJwt } from "react-jwt";
+import './Interface.scss';
 const cookies = new Cookies();
 
 // THIS IS A MESS; SHOULD REMAKE AND RESTRUCTURE ENTIRE APP TBH
 
 export default function Interface() {
-    const { decodedToken, isExpired } = useJwt(cookies.get('TOKEN'));
+    const [loading, setLoading] = useState(false);
     const [projects, setProjects] = useState([]);
     const [selectedProject, setSelectedProject] = useState({
         project_id: -1,
@@ -34,13 +34,21 @@ export default function Interface() {
     const [showError, setShowError] = useState(false);
 
     const handleError = error => {
+        if (typeof error !== 'undefined' && typeof error.response !== 'undefined'
+            && typeof error.response.status !== 'undefined' && error.response.status === 401) { // unauthorized
+            cookies.remove('TOKEN');
+            cookies.remove('USER_ID');
+            cookies.remove('USERNAME');
+            window.location.reload();
+        }
+
         setError(error);
         setShowError(true);
     }
     const handleCloseError = () => setShowError(false);
 
     const checkAdmin = project_id => {
-        callAPI('GET', `/api/project/member/admin/${project_id}/${cookies.get('USER_ID')}`, {})
+        callAPI('GET', `/api/project/member/admin/${project_id}/${cookies.get('USER_ID')}`, {}, setLoading)
             .then((result) => {
                 setIsAdmin(result.is_admin);
                 setIsOwner(result.is_owner);
@@ -48,7 +56,7 @@ export default function Interface() {
             .catch(handleError);
     }
     const getProjectMembers = project_id => {
-        callAPI('GET', `/api/project/members/${project_id}`, {})
+        callAPI('GET', `/api/project/members/${project_id}`, {}, setLoading)
             .then((result) => {
                 const sorted = result.users.sort((a, b) => a.username - b.username);
                 setProjectMembers(sorted);
@@ -56,14 +64,14 @@ export default function Interface() {
             .catch(handleError);
     }
     const getTasks = project_id => {
-        callAPI('GET', `/api/tasks/${project_id}`, {})
+        callAPI('GET', `/api/tasks/${project_id}`, {}, setLoading)
             .then((result) => {
                 let sorted = result.tasks.sort((a, b) => {
                     return new Date(a.task_due_date) - new Date(b.task_due_date);
                 });
                 setTasks(sorted);
 
-                callAPI('GET', `/api/user/tasks/${project_id}`, {})
+                callAPI('GET', `/api/user/tasks/${project_id}`, {}, setLoading)
                     .then((result) => {
                         sorted = result.tasks.sort((a, b) => {
                             return new Date(a.task_due_date) - new Date(b.task_due_date);
@@ -75,7 +83,7 @@ export default function Interface() {
             .catch(handleError);
     }
     const handleAddTask = (task, assignedMembers) => {
-        callAPI('POST', '/api/task', task)
+        callAPI('POST', '/api/task', task, setLoading, setLoading)
             .then((result) => {
                 setTasks([...tasks, result.task]);
                 setYourTasks([...yourTasks, result.task]);
@@ -85,7 +93,7 @@ export default function Interface() {
                     callAPI('PUT', '/api/task/members', {
                         task_id: task_id,
                         user_ids: assignedMembers
-                    })
+                    }, setLoading)
                         .then((result) => {
                             // Do nothing for now
                         })
@@ -100,7 +108,7 @@ export default function Interface() {
     const handleCompleteTask = task_id => {
         callAPI('PUT', '/api/task/complete', {
             task_id: task_id
-        })
+        }, setLoading)
             .then((result) => {
                 getTasks(selectedProject.project_id);
             })
@@ -121,14 +129,14 @@ export default function Interface() {
         callAPI('PUT', '/api/project/member/admin', {
             project_id: selectedProject.project_id,
             user_id: user_id
-        })
+        }, setLoading)
             .then((result) => {
                 getProjectMembers(selectedProject.project_id);
             })
             .catch(handleError);
     }
     const handleRemoveMember = user_id => {
-        callAPI('DELETE', `/api/project/member/${selectedProject.project_id}/${user_id}`, {})
+        callAPI('DELETE', `/api/project/member/${selectedProject.project_id}/${user_id}`, {}, setLoading)
             .then((result) => {
                 setProjectMembers(projectMembers.filter(member => member.user_id !== user_id));
 
@@ -140,16 +148,7 @@ export default function Interface() {
     }
 
     useEffect(() => {
-        if (decodedToken !== null) {
-            if (isExpired || decodedToken.user_id !== parseInt(cookies.get('USER_ID'))) {
-                cookies.remove('TOKEN');
-                cookies.remove('USER_ID');
-                cookies.remove('USERNAME');
-                window.location.reload();
-            }
-        }
-
-        callAPI('GET', '/api/projects', {})
+        callAPI('GET', '/api/projects', {}, setLoading)
             .then((result) => {
                 setProjects(result.projects);
 
@@ -167,10 +166,14 @@ export default function Interface() {
                 }
             })
             .catch(handleError);
-    }, [decodedToken]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div style={{ display: 'flex' }}>
+
+            {
+                loading && <div className={"lds-dual-ring"}></div>
+            }
 
             <Modal show={showError} onHide={handleCloseError} size="sm">
                 <Modal.Header closeButton style={{ color: 'red' }}>
@@ -194,6 +197,7 @@ export default function Interface() {
                 handleError={handleError}
                 isAdmin={isAdmin}
                 selectedProject={selectedProject}
+                setLoading={setLoading}
             />
 
             <div id="interface" style={{
@@ -211,6 +215,7 @@ export default function Interface() {
                     isOwner={isOwner}
                     handleGiveAdmin={handleGiveAdmin}
                     handleRemoveMember={handleRemoveMember}
+                    setLoading={setLoading}
                 />
                 {
                     selectedProject.project_id !== -1
@@ -227,6 +232,7 @@ export default function Interface() {
                                 user_id={parseInt(cookies.get('USER_ID'))}
                                 handleYourTaskChange={handleYourTaskChange}
                                 handleCompleteTask={handleCompleteTask}
+                                setLoading={setLoading}
                             />
                             <Analytics
                                 handleError={handleError}
