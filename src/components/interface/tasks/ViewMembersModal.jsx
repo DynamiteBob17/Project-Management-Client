@@ -54,6 +54,7 @@ function ViewMembersModal(props) {
                                         {member.username}
                                         {
                                             props.isAdmin
+                                                && !member.is_admin
                                                 && props.task.task_completed_date === null
                                                 && !props.isTaskOverdue(props.task)
                                                 ? <Button
@@ -74,10 +75,6 @@ function ViewMembersModal(props) {
                                                                 const newNonMembers = [...nonMembers, newNonMember];
                                                                 setNonMembers(newNonMembers);
                                                                 setTaskMembers(subtractArrays(props.projectMembers, newNonMembers));
-                                                            
-                                                                if (result.task_member.user_id === props.user_id) {
-                                                                    props.handleYourTaskChange(props.task, false);
-                                                                }
                                                             })
                                                             .catch(props.handleError);
                                                     }}
@@ -128,7 +125,7 @@ function ViewMembersModal(props) {
                                                                 setNonMembers(subtractArrays(props.projectMembers, newTaskMembers));
 
                                                                 if (result.task_member.user_id === props.user_id) {
-                                                                    props.handleYourTaskChange(props.task, true);
+                                                                    props.handleYourTaskChange(props.task);
                                                                 }
                                                             })
                                                             .catch(props.handleError);
