@@ -74,6 +74,10 @@ function ViewMembersModal(props) {
                                                                 const newNonMembers = [...nonMembers, newNonMember];
                                                                 setNonMembers(newNonMembers);
                                                                 setTaskMembers(subtractArrays(props.projectMembers, newNonMembers));
+                                                            
+                                                                if (result.task_member.user_id === props.user_id) {
+                                                                    props.handleYourTaskChange(props.task);
+                                                                }
                                                             })
                                                             .catch(props.handleError);
                                                     }}
