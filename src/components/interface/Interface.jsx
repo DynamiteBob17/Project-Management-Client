@@ -102,8 +102,12 @@ export default function Interface() {
             })
             .catch(handleError);
     }
-    const handleYourTaskChange = task => {
-        setYourTasks([...yourTasks, task]);
+    const handleYourTaskChange = (task, add) => {
+        if (add) {
+            setYourTasks([...yourTasks, task]);   
+        } else {
+            setYourTasks(yourTasks.filter(yourTask => yourTask.task_id != task.task_id);
+        }
     }
     const handleCompleteTask = task_id => {
         callAPI('PUT', '/api/task/complete', {
