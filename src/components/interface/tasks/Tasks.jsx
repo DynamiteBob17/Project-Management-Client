@@ -9,7 +9,7 @@ function Tasks(props) {
             {
                 props.isAdmin
                     ? <NewTaskModal
-                        project_id={props.selectedProject.project_id}
+                        selectedProject={props.selectedProject}
                         projectMembers={props.projectMembers}
                         handleAddTask={props.handleAddTask}
                         handleError={props.handleError}

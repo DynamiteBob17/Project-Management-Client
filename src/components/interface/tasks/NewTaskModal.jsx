@@ -9,7 +9,7 @@ function NewTaskModal(props) {
         task_description: '',
         task_priority: -1, // 0 = low, 1 = medium, 2 = high
         task_due_date: formattedDate,
-        project_id: props.project_id
+        project_id: -1
     }
     const [show, setShow] = useState(false);
     const [task, setTask] = useState(Object.assign({}, initialTaskState));
@@ -24,6 +24,8 @@ function NewTaskModal(props) {
     const handleShow = () => setShow(true);
     const handleSubmit = e => {
         e.preventDefault();
+
+        console.log(props.selectedProject.project_id);
 
         let error = {
             message: '',
@@ -55,7 +57,7 @@ function NewTaskModal(props) {
             task_description: task.task_description.trim(),
             task_priority: ['low', 'medium', 'high'][task.task_priority],
             task_due_date: task.task_due_date + ' 01:00', // gmt+1
-            project_id: task.project_id
+            project_id: props.selectedProject.project_id
         }
 
         props.handleAddTask(newTask, assignedMembers);
