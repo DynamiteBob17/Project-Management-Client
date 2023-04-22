@@ -7,7 +7,7 @@ name: Deploy to Firebase Hosting on merge
     branches:
       - main
 env:
-  REACT_APP_SERVER_ORIGIN: https://projectmanagementserver-ahjg.onrender.com
+  REACT_APP_SERVER_ORIGIN: https://shy-cyan-hare-kilt.cyclic.app
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
