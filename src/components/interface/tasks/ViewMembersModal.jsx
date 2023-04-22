@@ -76,7 +76,7 @@ function ViewMembersModal(props) {
                                                                 setTaskMembers(subtractArrays(props.projectMembers, newNonMembers));
                                                             
                                                                 if (result.task_member.user_id === props.user_id) {
-                                                                    props.handleYourTaskChange(props.task);
+                                                                    props.handleYourTaskChange(props.task, false);
                                                                 }
                                                             })
                                                             .catch(props.handleError);
@@ -128,7 +128,7 @@ function ViewMembersModal(props) {
                                                                 setNonMembers(subtractArrays(props.projectMembers, newTaskMembers));
 
                                                                 if (result.task_member.user_id === props.user_id) {
-                                                                    props.handleYourTaskChange(props.task);
+                                                                    props.handleYourTaskChange(props.task, true);
                                                                 }
                                                             })
                                                             .catch(props.handleError);
