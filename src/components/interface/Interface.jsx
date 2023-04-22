@@ -106,7 +106,7 @@ export default function Interface() {
         if (add) {
             setYourTasks([...yourTasks, task]);   
         } else {
-            setYourTasks(yourTasks.filter(yourTask => yourTask.task_id === task.task_id);
+            setYourTasks(yourTasks.filter(yourTask => yourTask.task_id === task.task_id));
         }
     }
     const handleCompleteTask = task_id => {
