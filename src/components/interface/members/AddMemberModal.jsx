@@ -1,42 +1,49 @@
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Form from 'react-bootstrap/Form';
+import React, { useState, useEffect } from 'react';
+import { Button, Modal, Form } from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
 import callAPI from '../callAPI';
 
 function AddMemberModal(props) {
     const [show, setShow] = useState(false);
-    const [username, setUsername] = useState('');
+    const [usernamesNotInProject, setUsernamesNotInProject] = useState(null);
+    const [singleSelections, setSingleSelections] = useState([]);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    useEffect(() => {
+        setUsernamesNotInProject(null);
+    }, [props.projectMembers]);
+
+    const handleClose = () => {
+        setSingleSelections([]);
+        setShow(false);
+    };
+    const handleShow = () => {
+        if (!usernamesNotInProject) {
+            callAPI(
+                'GET',
+                `/api/project/non_members/${props.selectedProject.project_id}`,
+                {},
+                props.setLoading
+            ).then((result) => {
+                setUsernamesNotInProject(result.non_members.map(nonmember => nonmember.username));
+            })
+                .catch(props.handleError);
+        }
+
+        setShow(true);
+    };
     const handleSubmit = e => {
         e.preventDefault();
 
-        if (username === '') {
-            return;
-        }
-
-        if (props.usernames.includes(username)) {
-            props.handleError({
-                message: 'Username already exists in project',
-                response: {
-                    data: {
-                        message: ''
-                    }
-                }
-            });
+        if (singleSelections.length === 0) {
             return;
         }
 
         callAPI('PUT', '/api/project/member', {
             project_id: props.selectedProject.project_id,
-            username: username
+            username: singleSelections[0]
         }, props.setLoading)
             .then((result) => {
                 props.handleProjectChange(props.selectedProject);
-                setUsername('');
                 handleClose();
             })
             .catch(props.handleError);
@@ -60,20 +67,17 @@ function AddMemberModal(props) {
                     </Modal.Header>
                     <Modal.Body>
                         <Form onSubmit={handleSubmit}>
-                            <FloatingLabel
-                                controlId="floatingText"
-                                label="Enter username"
-                            >
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter username"
-                                    value={username}
-                                    onChange={e => { setUsername(e.target.value) }}
-                                />
-                            </FloatingLabel>
+                            <Typeahead
+                                id="basic-typeahead-single"
+                                labelKey="username"
+                                onChange={setSingleSelections}
+                                options={usernamesNotInProject || []}
+                                placeholder="Find a user..."
+                                selected={singleSelections}
+                            />
 
                             <Button
-                                disabled={username === ''}
+                                disabled={singleSelections.length === 0}
                                 variant="warning"
                                 onClick={handleSubmit}
                                 type="submit"
@@ -85,6 +89,7 @@ function AddMemberModal(props) {
                                 Add
                             </Button>
                         </Form>
+
                     </Modal.Body>
                 </Modal>
             </Form>

@@ -116,12 +116,8 @@ function Members(props) {
                                 ? <AddMemberModal
                                     handleError={props.handleError}
                                     selectedProject={props.selectedProject}
+                                    projectMembers={props.projectMembers}
                                     handleProjectChange={props.handleProjectChange}
-                                    usernames={
-                                        props.projectMembers.map(member => {
-                                            return member.username;
-                                        })
-                                    }
                                     setLoading={props.setLoading}
                                 />
                                 : <></>
