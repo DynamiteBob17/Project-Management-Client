@@ -9,8 +9,10 @@ import Analytics from "./analytics/Analytics";
 import './Interface.scss';
 const cookies = new Cookies();
 
-// THIS IS A MESS; SHOULD REMAKE AND RESTRUCTURE ENTIRE APP TBH
-// also, too many calls to the server, but it's just not worth the time right now, if ever
+// THIS IS A MESS; SHOULD REMAKE AND RESTRUCTURE ENTIRE APP TBH,
+// also, too many calls to the api when updating parts of the ui
+// since most states of the app are all right here in this component,
+// but it's just not worth the time right now, if ever
 
 export default function Interface() {
     const [loading, setLoading] = useState(false);
