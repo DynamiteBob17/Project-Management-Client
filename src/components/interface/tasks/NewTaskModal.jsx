@@ -25,8 +25,6 @@ function NewTaskModal(props) {
     const handleSubmit = e => {
         e.preventDefault();
 
-        console.log(props.selectedProject.project_id);
-
         let error = {
             message: '',
             response: {
@@ -56,7 +54,7 @@ function NewTaskModal(props) {
             task_name: task.task_name.trim(),
             task_description: task.task_description.trim(),
             task_priority: ['low', 'medium', 'high'][task.task_priority],
-            task_due_date: task.task_due_date + ' 01:00', // gmt+1
+            task_due_date: new Date(task.task_due_date).toISOString(),
             project_id: props.selectedProject.project_id
         }
 
