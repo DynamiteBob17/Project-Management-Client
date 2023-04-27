@@ -66,6 +66,17 @@ function CommentsModal(props) {
             .catch(props.handleError);
     }
 
+    const canDeleteComment = comment_user_id => {
+        const projectMember = props.projectMembers.find(pm => pm.user_id === comment_user_id);
+
+        if (projectMember !== undefined) {
+            return comment_user_id === parseInt(cookies.get('USER_ID'))
+                || (props.isAdmin && !projectMember.is_owner);
+        } else {
+            return true;
+        }
+    }
+
     return (
         <>
             <Button
@@ -110,11 +121,7 @@ function CommentsModal(props) {
                                         </div>
                                     </div>
                                     {
-                                        comment.user_id === parseInt(cookies.get('USER_ID'))
-                                            || (props.isAdmin
-                                                && !props.projectMembers.find(pm => {
-                                                    return pm.user_id === comment.user_id;
-                                                }).is_owner)
+                                        canDeleteComment(comment.user_id)
                                             ? <Button
                                                 variant="danger"
                                                 size="sm"
