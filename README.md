@@ -1,5 +1,6 @@
 # About
-[here](https://github.com/DynamiteBob17/Project-Management-Server) is the server repository 
+[here](https://github.com/DynamiteBob17/Project-Management-Server) is the server repository  
+- users can login/register, create projects, add members to those projects, manage their roles, create tasks for the projects, comment on tasks and more...
 - some test users:  
 1. username: **user1**(***owner*** of testProject1)  
    password: *pmpickle33*  
@@ -9,7 +10,8 @@
    email: user2@pickle33.org    
 3. username: **user3**(***member*** of testProject1)  
    password: *pmpickle33*  
-   email: user3@pickle33.org  
+   email: user3@pickle33.org
+- [live demo](https://clipchamp.com/watch/URZZJ5mMt5z)
 
 ## How to use
 1. Create a **.env** or appropriate file and set up your environment similar to how it's set up in the **example.env** file in this repository
