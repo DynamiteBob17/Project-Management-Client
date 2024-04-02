@@ -11,7 +11,6 @@
 3. username: **user3**(***member*** of testProject1)  
    password: *pmpickle33*  
    email: user3@pickle33.org
-- [live demo](https://clipchamp.com/watch/URZZJ5mMt5z)
 
 ## How to use
 1. Create a **.env** or appropriate file and set up your environment similar to how it's set up in the **example.env** file in this repository
